@@ -1,0 +1,78 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp5.0</TargetFramework>
+        <RootNamespace>Dex.DomainGenerator</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Update="Templates\DtoEntityGenerator.cs">
+        <AutoGen>True</AutoGen>
+        <DesignTime>True</DesignTime>
+        <DependentUpon>DtoEntityGenerator.tt</DependentUpon>
+      </Compile>
+      <Compile Update="Templates\EnumFluentGenerator.cs">
+        <DependentUpon>EnumFluentGenerator.tt</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Templates\DbEntityGenerator.tt" />
+      <None Remove="Templates\DbForeignKeyFluentGenerator.tt" />
+      <None Remove="Templates\DbIndexFluentGenerator.tt" />
+      <None Remove="Templates\DbSpecificationGenerator.tt" />
+      <None Remove="Templates\DbSpecificationsClassGenerator.tt" />
+      <None Remove="Templates\DbSpGenerator.tt" />
+      <None Remove="Templates\DtoEntityGenerator.tt" />
+      <None Remove="Templates\EnumFluentGenerator.tt" />
+      <None Update="settings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Templates\DbEntityGenerator.tt">
+        <Generator>TextTemplatingFilePreprocessor</Generator>
+        <LastGenOutput>DbEntityGenerator.cs</LastGenOutput>
+      </Content>
+      <Content Include="Templates\DbForeignKeyFluentGenerator.tt">
+        <Generator>TextTemplatingFilePreprocessor</Generator>
+        <LastGenOutput>DbForeignKeyFluentGenerator.cs</LastGenOutput>
+      </Content>
+      <Content Include="Templates\DtoEntityGenerator.tt">
+        <Generator>TextTemplatingFileGenerator</Generator>
+        <LastGenOutput>DtoEntityGenerator.cs</LastGenOutput>
+      </Content>
+      <Content Include="Templates\EnumFluentGenerator.tt">
+        <Generator>TextTemplatingFilePreprocessor</Generator>
+        <LastGenOutput>EnumFluentGenerator.cs</LastGenOutput>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.CodeDom" Version="4.7.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Templates\DbEntityGenerator.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>DbEntityGenerator.tt</DependentUpon>
+      </Compile>
+      <Compile Update="Templates\DbForeignKeyFluentGenerator.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>DbForeignKeyFluentGenerator.tt</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Dex.DalGenerator.Core\Dex.DalGenerator.Core.csproj" />
+    </ItemGroup>
+
+</Project>

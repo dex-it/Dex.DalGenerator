@@ -1,0 +1,51 @@
+﻿<#
+    // ReSharper disable RedundantNameQualifier
+#>
+<#@ template debug="true" hostspecific="false" language="C#" #>
+<#@ import namespace="System.ComponentModel.DataAnnotations" #>
+<#@ import namespace="Dex.DalGenerator.Core.Extensions" #>
+using System;
+using System.ComponentModel.DataAnnotations;
+using <#= _enumNamespace #>;
+
+namespace <#= _namespace #>
+{
+	public partial class <#= Entity.Name #>: <#= GetSourceTypeName() #>
+	{
+<#
+		foreach(var prop in Entity.Properties.Values)
+		{
+			if(prop.HasAttribute<RequiredAttribute>())
+			{
+#>
+		[Required]
+<#
+            }
+#>
+        public <#= GetFriendlyName(prop) #><#= prop.IsCollection ? "[]" : "" #> <#= prop.Name #> { get; set; }
+<# 
+        }
+		foreach(var prop in Entity.References.Values)
+        {
+            if(prop.HasAttribute<RequiredAttribute>())
+            {
+#>
+		[Required]
+<#
+            }
+#>
+        public <#= prop.TargetEntity.Name #><#= prop.IsCollection ? "[]" : "" #> <#= prop.Name #> { get; set; }
+<#
+            if(prop.HasAttribute<RequiredAttribute>())
+            {
+#>
+		[Required]
+<#
+            }
+#>
+		<#= prop.TargetEntity.SourceType.GetFriendlyName() #><#= prop.IsCollection ? "[]" : "" #> <#= GetSourceTypeName() #>.<#= prop.Name #> => this.<#= prop.Name #>;
+<# 
+        }
+#>
+	}
+}

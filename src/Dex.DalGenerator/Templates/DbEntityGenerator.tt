@@ -1,0 +1,51 @@
+﻿<#
+    // ReSharper disable RedundantNameQualifier
+#>
+<#@ template debug="true" hostspecific="false" language="C#" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="Dex.DalGenerator.Core.Extensions" #>
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using <#= EnumNamespace #>;
+using Dex.Ef.Contracts.Entities;
+
+namespace <#=Namespace#>
+{
+<#
+	string implements = Entity.IsRootType ? " : " + string.Join(", ", Entity.Implements.Select(i=>i.GetFriendlyName())) : string.Empty;
+#>
+	[Table("<#= GetTableName(Entity) #>")]
+	public partial class <#= Entity.Name #><#=implements#>
+	{
+<#
+foreach(var prop in Entity.Properties.Values)
+{
+#>
+
+		<#= GetAttributes(prop) #>
+		public <#= prop.PropertyType.GetFriendlyName() + (prop.IsCollection? "[]" : "")#> <#= prop.Name #> { get; set; }
+<#
+}
+
+if(Relations.Count() > 0)
+{
+	Write(Environment.NewLine);
+}
+
+foreach(var relation in Relations)
+{
+	string typeName = relation.IsCollection ? $" System.Collections.Generic.ICollection<{relation.TypeName}>" : relation.TypeName;
+	if(!relation.IsBackRelation)
+	{
+#>
+		[ForeignKey("<#= relation.KeyPropertyName #>")]
+<#	
+	}
+#>
+		public <#= typeName #> <#=relation.PropertyName #> { get; set; }
+<#
+}
+#>
+	}
+}

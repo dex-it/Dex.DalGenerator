@@ -1,0 +1,24 @@
+﻿[
+  {
+    "Root": "D:/Projects/Dex/backend-generator-v2/src/",
+    "CsProject": "Services/Server/Tools/Server.DomainDeclaration/Server.DomainDeclaration.csproj",
+    "Dll": "Services/Server/Tools/Server.DomainDeclaration/bin/Debug/net5.0/publish/Server.DomainDeclaration.dll",
+    "DbModels": {
+      "Namespace": "Server.Dal.Models",
+      "EnumNamespace": "Server.Dal.Common",
+      "Path": "Services/Server/Server.Dal/Models/Generated"
+    },
+    "DbFluentFk": {
+      "Namespace": "Server.Dal.Provider",
+      "Path": "Services/Server/Server.Dal/Provider/Generated/DbFluentFkProvider.g.cs"
+    },
+    "DbFluentEnum": {
+      "Namespace": "Server.Dal.Provider",
+      "Path": "Services/Server/Server.Dal/Provider/Generated/DbFluentEnumProvider.g.cs"
+    },
+    "Dto": {
+      "Namespace": "Server.Dto",
+      "Path": "Services/Server/Server.Dto/Generated"
+    }
+  }
+]

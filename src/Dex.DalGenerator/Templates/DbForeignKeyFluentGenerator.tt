@@ -1,0 +1,48 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+using <#= _entitiesNamespace #>;
+using Microsoft.EntityFrameworkCore;
+
+namespace <#= _namespace #>
+{
+    internal static class ForeignKeysFluentDbProvider
+    {
+        public static void ConfigForeignKeys(ModelBuilder builder)
+        {
+<#
+            foreach (var relation in _relations)
+            {
+                if (!relation.IsBackRelation)
+                {
+                    var backRelation = GetBackRelation(relation);
+                    
+					var cascadeOption = "DeleteBehavior.Restrict";
+                    if (relation.IsCascadeDelete)
+                        cascadeOption = "DeleteBehavior.Cascade";
+
+					if (!relation.OneToOne)
+                    {
+#>
+			builder.Entity <<#= relation.EntityName #>>()
+				.HasOne(d => d.<#= relation.PropertyName #>)
+				.WithMany(u => u.<#= backRelation.PropertyName #>)
+				.HasForeignKey(d => d.<#= relation.KeyPropertyName #>)
+				.OnDelete(<#= cascadeOption #>);
+
+<#
+                    }
+                    else
+                    {
+#>
+			builder.Entity <<#= backRelation.EntityName #>>()
+				.HasOne(d => d.<#= backRelation.PropertyName #>)
+				.WithOne(u => u.<#= relation.PropertyName #>)
+				.HasForeignKey<<#= relation.EntityName #>>(d => d.<#= relation.KeyPropertyName #>)
+				.OnDelete(<#= cascadeOption #>);
+                        
+<#                  }
+                }
+			}
+#>
+		}
+    }
+}
