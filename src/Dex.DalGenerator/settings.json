@@ -1,6 +1,6 @@
 ﻿[
   {
-    "Root": "D:/Projects/Dex/backend-generator-v2/src/",
+    "Root": "D:/Projects/Dex/Dex.Backend.StartApp/src/",
     "CsProject": "Services/Server/Tools/Server.DomainDeclaration/Server.DomainDeclaration.csproj",
     "Dll": "Services/Server/Tools/Server.DomainDeclaration/bin/Debug/net5.0/publish/Server.DomainDeclaration.dll",
     "DbModels": {

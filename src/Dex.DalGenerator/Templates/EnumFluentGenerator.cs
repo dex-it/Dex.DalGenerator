@@ -98,7 +98,7 @@ namespace Dex.DalGenerator.Templates
             
             #line default
             #line hidden
-            this.Write("            builder.ForNpgsqlHasEnum(nameof(");
+            this.Write("            builder.HasPostgresEnum(nameof(");
             
             #line 41 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(enumName));

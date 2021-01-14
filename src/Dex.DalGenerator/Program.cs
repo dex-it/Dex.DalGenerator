@@ -11,7 +11,6 @@ using Dex.DalGenerator.Generator;
 using Dex.DalGenerator.Settings;
 using Dex.DalGenerator.Extensions;
 using Dex.DalGenerator.Annotation.Attributes;
-using Dex.DalGenerator.Templates;
 using DbForeignKeyFluentGenerator = Dex.DalGenerator.Templates.DbForeignKeyFluentGenerator;
 using EnumFluentGenerator = Dex.DalGenerator.Templates.EnumFluentGenerator;
 
@@ -22,7 +21,6 @@ namespace Dex.DalGenerator
         static void Main()
         {
             var settings = JsonSerializer.Deserialize<GeneratorSettings[]>(File.ReadAllText("settings.json"));
-
             foreach (var setting in settings)
             {
                 var processStartInfo = new ProcessStartInfo
@@ -34,16 +32,17 @@ namespace Dex.DalGenerator
                 {
                     process.Start();
                     process.WaitForExit();
-                    NewMethod(setting);
                 }
+
+                var assembly = Assembly.LoadFrom(Path.Combine(setting.Root, setting.Dll));
+                Gen(assembly, setting);
             }
         }
-
-        private static void NewMethod(GeneratorSettings settings)
+        
+        private static void Gen(Assembly assembly, GeneratorSettings setting)
         {
-            var assembly = Assembly.LoadFrom(Path.Combine(settings.Root, settings.Dll));
             Log("Started");
-            Log($"Solution - {Path.Combine(settings.Root, settings.CsProject)}.");
+            Log($"Solution - {Path.Combine(setting.Root, setting.CsProject)}.");
 
             Log("Create db domain");
             var dbEntityDomain = new DefaultDbEntityDomain(assembly);
@@ -52,31 +51,31 @@ namespace Dex.DalGenerator
             var entityModels = dbEntityDomain.EntityModels;
             var relations = entityModels.CollectRelations();
 
-            var modelNamespace = settings.DbModels.Namespace;
-            var enumNamespace = settings.DbModels.EnumNamespace;
+            var modelNamespace = setting.DbModels.Namespace;
+            var enumNamespace = setting.DbModels.EnumNamespace;
             var dbEntitiesGenerator = new DbEntitiesGenerator(entityModels, relations, modelNamespace, enumNamespace);
-            
-            var folderPath = Path.Combine(settings.Root, settings.DbModels.Path);
+
+            var folderPath = Path.Combine(setting.Root, setting.DbModels.Path);
             Directory.CreateDirectory(folderPath);
             dbEntitiesGenerator.Generate(folderPath);
 
-            if (settings.DbFluentFk != null)
+            if (setting.DbFluentFk != null)
             {
                 Log("Generate foreign keys by fluent syntax");
-                var ns = settings.DbFluentFk.Namespace;
+                var ns = setting.DbFluentFk.Namespace;
                 var dbForeignKeyFluentGenerator = new DbForeignKeyFluentGenerator(relations, ns, modelNamespace);
-                dbForeignKeyFluentGenerator.WriteToFile(Path.Combine(settings.Root, settings.DbFluentFk.Path));
+                dbForeignKeyFluentGenerator.WriteToFile(Path.Combine(setting.Root, setting.DbFluentFk.Path));
             }
-            
-            if (settings.DbFluentEnum != null)
+
+            if (setting.DbFluentEnum != null)
             {
                 Log("Generate enum by fluent syntax");
-                var ns = settings.DbFluentEnum.Namespace;
+                var ns = setting.DbFluentEnum.Namespace;
                 var enumFluentGenerator = new EnumFluentGenerator(entityModels, ns, enumNamespace);
-                enumFluentGenerator.WriteToFile(Path.Combine(settings.Root, settings.DbFluentEnum.Path));
+                enumFluentGenerator.WriteToFile(Path.Combine(setting.Root, setting.DbFluentEnum.Path));
             }
-            
-            if (settings.Dto != null)
+
+            if (setting.Dto != null)
             {
                 Log("Create dto domain");
                 var dtoEntityDomain = new DefaultDtoEntityDomain(assembly);
@@ -84,11 +83,11 @@ namespace Dex.DalGenerator
                     .Where(dto => dto.Attributes.Any(a => a.GetType().Name == nameof(CreateDtoAttribute)))
                     .Select(dto => (IEntityModel) new EntityModelDtoIgnore(dto))
                     .ToArray();
-            
+
                 Log("Generate dtos");
-                var ns = settings.Dto.Namespace;
+                var ns = setting.Dto.Namespace;
                 var dtoEntitiesGenerator = new DtoEntitiesGenerator(models, ns, enumNamespace);
-                folderPath = Path.Combine(settings.Root, settings.Dto.Path);
+                folderPath = Path.Combine(setting.Root, setting.Dto.Path);
                 Directory.CreateDirectory(folderPath);
                 dtoEntitiesGenerator.Generate(folderPath);
             }
