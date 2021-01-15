@@ -1,0 +1,49 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ import namespace="System.ComponentModel.DataAnnotations.Schema" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="Dex.Ef.Attributes" #>
+using <#= _entitiesNamespace #>;
+using Microsoft.EntityFrameworkCore;
+
+namespace <#= _namespace #>
+{
+    internal static class FluentIndex
+    {
+        public static void ConfigIndex(ModelBuilder builder)
+        {
+
+<#
+    foreach (var entityModel in _entities)
+    {
+		var tableName = entityModel.Attributes.OfType<TableAttribute>().SingleOrDefault()?.Name ?? entityModel.Name;
+		
+		var attributesPropertie = entityModel.Properties
+			.SelectMany(p => p.Value.Attributes, (p, r) => new {p.Key, r}).Where(p => p.r is IndexAttribute)
+            .Select(a => new {Properties = a.Key, IndexAttribute = a.r as IndexAttribute})
+            .Select(p => new
+            {
+                IndexName = string.IsNullOrWhiteSpace(p.IndexAttribute.IndexName) 
+					? $"IX_{tableName}_{p.Properties}" 
+					: p.IndexAttribute.IndexName,
+                p.Properties,
+                p.IndexAttribute
+            })
+            .GroupBy(p => p.IndexName);
+
+        if (!attributesPropertie.Any()) continue;
+		
+        foreach (var attributes in attributesPropertie)
+        {
+            var indexAttribute = attributes.First().IndexAttribute;
+#>
+            builder.Entity<<#= entityModel.Name #>>()
+				.HasIndex(x => new {x.<#= string.Join(", x.", attributes.OrderBy(p => p.IndexAttribute.Order).Select(p => p.Properties).ToArray()) #>}, "<#= attributes.Key#>")
+				.IsUnique(<#= indexAttribute.IsUnique? "true" : "false"#>);
+ 
+<#
+        }
+    }
+#>
+		}
+    }
+}

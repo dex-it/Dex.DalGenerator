@@ -28,6 +28,10 @@
         <Generator>TextTemplatingFilePreprocessor</Generator>
         <LastGenOutput>DbForeignKeyFluentGenerator.cs</LastGenOutput>
       </Content>
+      <Content Include="Templates\DbIndexFluentGenerator.tt">
+        <Generator>TextTemplatingFilePreprocessor</Generator>
+        <LastGenOutput>DbIndexFluentGenerator.cs</LastGenOutput>
+      </Content>
       <Content Include="Templates\DtoEntityGenerator.tt">
         <Generator>TextTemplatingFilePreprocessor</Generator>
         <LastGenOutput>DtoEntityGenerator.cs</LastGenOutput>
@@ -56,6 +60,11 @@
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
         <DependentUpon>DbForeignKeyFluentGenerator.tt</DependentUpon>
+      </Compile>
+      <Compile Update="Templates\DbIndexFluentGenerator.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>DbIndexFluentGenerator.tt</DependentUpon>
       </Compile>
       <Compile Update="Templates\DtoEntityGenerator.cs">
         <DesignTime>True</DesignTime>

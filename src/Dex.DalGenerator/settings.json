@@ -15,6 +15,10 @@
     "DbFluentEnum": {
       "Namespace": "Server.Dal.Provider",
       "Path": "Services/Server/Server.Dal/Provider/Generated/DbFluentEnumProvider.g.cs"
+    },    
+    "DbFluentIndex": {
+      "Namespace": "Server.Dal.Provider",
+      "Path": "Services/Server/Server.Dal/Provider/Generated/DbFluentIndexProvider.g.cs"
     },
     "Dto": {
       "Namespace": "Server.Dto",

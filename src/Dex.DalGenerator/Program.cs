@@ -11,6 +11,7 @@ using Dex.DalGenerator.Generator;
 using Dex.DalGenerator.Settings;
 using Dex.DalGenerator.Extensions;
 using Dex.DalGenerator.Annotation.Attributes;
+using Dex.DalGenerator.Templates;
 using DbForeignKeyFluentGenerator = Dex.DalGenerator.Templates.DbForeignKeyFluentGenerator;
 using EnumFluentGenerator = Dex.DalGenerator.Templates.EnumFluentGenerator;
 
@@ -65,6 +66,14 @@ namespace Dex.DalGenerator
                 var ns = setting.DbFluentFk.Namespace;
                 var dbForeignKeyFluentGenerator = new DbForeignKeyFluentGenerator(relations, ns, modelNamespace);
                 dbForeignKeyFluentGenerator.WriteToFile(Path.Combine(setting.Root, setting.DbFluentFk.Path));
+            }
+
+            if (setting.DbFluentIndex != null)
+            {
+                Log("Generate index by fluent syntax");
+                var ns = setting.DbFluentIndex.Namespace;
+                var dbForeignKeyFluentGenerator = new DbIndexFluentGenerator(dbEntityDomain, ns, modelNamespace);
+                dbForeignKeyFluentGenerator.WriteToFile(Path.Combine(setting.Root, setting.DbFluentIndex.Path));
             }
 
             if (setting.DbFluentEnum != null)
