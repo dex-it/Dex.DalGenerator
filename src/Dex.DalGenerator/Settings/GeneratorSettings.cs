@@ -2,8 +2,6 @@
 {
     public class GeneratorSettings
     {
-        public string Root { get; set; }
-        
         public string CsProject { get; set; }
         
         public string Dll { get; set; }

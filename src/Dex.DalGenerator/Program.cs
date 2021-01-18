@@ -21,13 +21,19 @@ namespace Dex.DalGenerator
     {
         static void Main()
         {
-            var settings = JsonSerializer.Deserialize<GeneratorSettings[]>(File.ReadAllText("settings.json"));
-            foreach (var setting in settings)
+            var projectSettingsText = File.ReadAllText("settings.json");
+            var projectSettings = JsonSerializer.Deserialize<GenProjectSettings[]>(projectSettingsText);
+            var currentDirectory = Environment.CurrentDirectory;
+            
+            foreach (var projectSetting in projectSettings)
             {
+                Environment.CurrentDirectory = projectSetting.Root;
+                var settingsText = File.ReadAllText(projectSetting.ConfigName);
+                var settings = JsonSerializer.Deserialize<GeneratorSettings>(settingsText);
                 var processStartInfo = new ProcessStartInfo
                 {
                     FileName = "cmd",
-                    Arguments = $"/C dotnet publish {Path.GetFullPath(setting.CsProject, setting.Root)}"
+                    Arguments = $"/C dotnet publish {settings.CsProject}"
                 };
                 using (var process = new Process {StartInfo = processStartInfo})
                 {
@@ -35,15 +41,17 @@ namespace Dex.DalGenerator
                     process.WaitForExit();
                 }
 
-                var assembly = Assembly.LoadFrom(Path.Combine(setting.Root, setting.Dll));
-                Gen(assembly, setting);
+                var assembly = Assembly.LoadFrom(settings.Dll);
+                Gen(assembly, settings);
+                
+                Environment.CurrentDirectory = currentDirectory;
             }
         }
-        
+
         private static void Gen(Assembly assembly, GeneratorSettings setting)
         {
             Log("Started");
-            Log($"Solution - {Path.Combine(setting.Root, setting.CsProject)}.");
+            Log($"Solution - {setting.CsProject}.");
 
             Log("Create db domain");
             var dbEntityDomain = new DefaultDbEntityDomain(assembly);
@@ -55,9 +63,10 @@ namespace Dex.DalGenerator
             var modelNamespace = setting.DbModels.Namespace;
             var enumNamespace = setting.DbModels.EnumNamespace;
             var isSnakeCase = setting.DbModels.IsSnakeCase;
-            var dbEntitiesGenerator = new DbEntitiesGenerator(entityModels, relations, modelNamespace, enumNamespace, isSnakeCase);
+            var dbEntitiesGenerator =
+                new DbEntitiesGenerator(entityModels, relations, modelNamespace, enumNamespace, isSnakeCase);
 
-            var folderPath = Path.Combine(setting.Root, setting.DbModels.Path);
+            var folderPath = setting.DbModels.Path;
             Directory.CreateDirectory(folderPath);
             dbEntitiesGenerator.Generate(folderPath);
 
@@ -66,7 +75,7 @@ namespace Dex.DalGenerator
                 Log("Generate foreign keys by fluent syntax");
                 var ns = setting.DbFluentFk.Namespace;
                 var dbForeignKeyFluentGenerator = new DbForeignKeyFluentGenerator(relations, ns, modelNamespace);
-                dbForeignKeyFluentGenerator.WriteToFile(Path.Combine(setting.Root, setting.DbFluentFk.Path));
+                dbForeignKeyFluentGenerator.WriteToFile(setting.DbFluentFk.Path);
             }
 
             if (setting.DbFluentIndex != null)
@@ -74,7 +83,7 @@ namespace Dex.DalGenerator
                 Log("Generate index by fluent syntax");
                 var ns = setting.DbFluentIndex.Namespace;
                 var dbForeignKeyFluentGenerator = new DbIndexFluentGenerator(dbEntityDomain, ns, modelNamespace);
-                dbForeignKeyFluentGenerator.WriteToFile(Path.Combine(setting.Root, setting.DbFluentIndex.Path));
+                dbForeignKeyFluentGenerator.WriteToFile(setting.DbFluentIndex.Path);
             }
 
             if (setting.DbFluentEnum != null)
@@ -82,7 +91,7 @@ namespace Dex.DalGenerator
                 Log("Generate enum by fluent syntax");
                 var ns = setting.DbFluentEnum.Namespace;
                 var enumFluentGenerator = new EnumFluentGenerator(entityModels, ns, enumNamespace);
-                enumFluentGenerator.WriteToFile(Path.Combine(setting.Root, setting.DbFluentEnum.Path));
+                enumFluentGenerator.WriteToFile(setting.DbFluentEnum.Path);
             }
 
             if (setting.Dto != null)
@@ -97,7 +106,7 @@ namespace Dex.DalGenerator
                 Log("Generate dtos");
                 var ns = setting.Dto.Namespace;
                 var dtoEntitiesGenerator = new DtoEntitiesGenerator(models, ns, enumNamespace);
-                folderPath = Path.Combine(setting.Root, setting.Dto.Path);
+                folderPath = setting.Dto.Path;
                 Directory.CreateDirectory(folderPath);
                 dtoEntitiesGenerator.Generate(folderPath);
             }
