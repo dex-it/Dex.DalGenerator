@@ -131,6 +131,14 @@ namespace Dex.DalGenerator.Templates
             #line 48 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
 
             }
+
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
+            
+            #line 52 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
+
         }
     }
 

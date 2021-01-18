@@ -47,6 +47,9 @@ namespace <#= _namespace #>
                 .HasMethod("<#= indexAttribute.Method #>");
 <#
             }
+#>
+
+<#
         }
     }
 #>
