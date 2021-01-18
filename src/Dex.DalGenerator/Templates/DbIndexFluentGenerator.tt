@@ -39,9 +39,14 @@ namespace <#= _namespace #>
 #>
             builder.Entity<<#= entityModel.Name #>>()
 				.HasIndex(x => new {<#= field #>}, "<#= attributes.Key#>")
-				.IsUnique(<#= indexAttribute.IsUnique? "true" : "false"#>);
- 
+				.IsUnique(<#= indexAttribute.IsUnique? "true" : "false"#>)<#= indexAttribute.Method == null ? ";" : string.Empty #>
 <#
+            if (indexAttribute.Method != null)
+            {
+#>
+                .HasMethod("<#= indexAttribute.Method #>");
+<#
+            }
         }
     }
 #>

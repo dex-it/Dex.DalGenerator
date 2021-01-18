@@ -43,8 +43,7 @@ namespace Dex.DalGenerator.Templates
             
             #line default
             #line hidden
-            this.Write("\r\n{\r\n    internal static class FluentIndex\r\n    {\r\n        public static void Con" +
-                    "fig(ModelBuilder builder)\r\n        {\r\n");
+            this.Write("\r\n{\r\n    internal static class FluentIndex\r\n    {\r\n        public static void Config(ModelBuilder builder)\r\n        {\r\n");
             
             #line 15 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
 
@@ -103,10 +102,35 @@ namespace Dex.DalGenerator.Templates
             
             #line default
             #line hidden
-            this.Write(");\r\n \r\n");
+            this.Write(")");
             
-            #line 44 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
+            #line 42 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(indexAttribute.Method == null ? ";" : string.Empty));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
+            
+            #line 43 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
 
+            if (indexAttribute.Method != null)
+            {
+
+            
+            #line default
+            #line hidden
+            this.Write("                .HasMethod(\"");
+            
+            #line 47 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(indexAttribute.Method));
+            
+            #line default
+            #line hidden
+            this.Write("\");\r\n");
+            
+            #line 48 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
+
+            }
         }
     }
 
