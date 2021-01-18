@@ -130,14 +130,14 @@ foreach(var relation in Relations)
             
             #line default
             #line hidden
-            this.Write("\t\t[ForeignKey(\"");
+            this.Write("\t\t[ForeignKey(nameof(");
             
             #line 42 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(relation.KeyPropertyName));
             
             #line default
             #line hidden
-            this.Write("\")]\r\n");
+            this.Write("))]\r\n");
             
             #line 43 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
 	

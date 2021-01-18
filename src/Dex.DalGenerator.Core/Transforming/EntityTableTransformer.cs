@@ -75,7 +75,7 @@ namespace Dex.DalGenerator.Core.Transforming
                 return nameProvider(model);
             }
 
-            return model.Name.Pluralize().ToLowerInvariant();
+            return model.Name.ToLowerInvariant();
         }
 
         private string GetEntityName( IEntityModel model)

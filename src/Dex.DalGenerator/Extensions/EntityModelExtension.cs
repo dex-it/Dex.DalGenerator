@@ -37,14 +37,14 @@ namespace Dex.DalGenerator.Extensions
                         IsCollection = true,
                         KeyPropertyName = propertyModel.Name,
                         TypeName = entity.Name,
-                        PropertyName = entity.Name.ReplaceRegex("Db$", string.Empty).Pluralize(),
+                        PropertyName = entity.Name.ReplaceRegex("Db$", string.Empty),
                         IsBackRelation = true,
                         IsCascadeDelete = relationAttribute.Cascade
                     };
                     if (relationAttribute.OneToOne)
                     {
                         backRelation.IsCollection = false;
-                        backRelation.PropertyName = backRelation.PropertyName.Singularize();
+                        backRelation.PropertyName = backRelation.PropertyName;
                         backRelation.OneToOne = true;
                         relation.OneToOne = true;
                     }

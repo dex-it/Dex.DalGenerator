@@ -39,7 +39,7 @@ foreach(var relation in Relations)
 	if(!relation.IsBackRelation)
 	{
 #>
-		[ForeignKey("<#= relation.KeyPropertyName #>")]
+		[ForeignKey(nameof(<#= relation.KeyPropertyName #>))]
 <#	
 	}
 #>

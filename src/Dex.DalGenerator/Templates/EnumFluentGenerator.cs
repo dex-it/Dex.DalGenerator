@@ -85,7 +85,7 @@ namespace Dex.DalGenerator.Templates
 		    return result.ToArray();
 	    }
 
-        public static void ConfigEnumFluent(ModelBuilder builder)
+        public static void Config(ModelBuilder builder)
         {
 ");
             

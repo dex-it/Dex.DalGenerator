@@ -40,7 +40,7 @@ namespace Dex.DalGenerator.Templates
             #line default
             #line hidden
             this.Write("\r\n{\r\n    internal static class ForeignKeysFluentDbProvider\r\n    {\r\n        public" +
-                    " static void ConfigForeignKeys(ModelBuilder builder)\r\n        {\r\n");
+                    " static void Config(ModelBuilder builder)\r\n        {\r\n");
             
             #line 11 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbForeignKeyFluentGenerator.tt"
 

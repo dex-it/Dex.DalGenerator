@@ -12,6 +12,7 @@ namespace Dex.DalGenerator.Templates
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
     using Dex.Ef.Attributes;
+    using Dex.DalGenerator.Core.Extensions;
     using System;
     
     /// <summary>
@@ -30,19 +31,20 @@ namespace Dex.DalGenerator.Templates
         {
             this.Write("using ");
             
-            #line 5 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
+            #line 6 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_entitiesNamespace));
             
             #line default
             #line hidden
             this.Write(";\r\nusing Microsoft.EntityFrameworkCore;\r\n\r\nnamespace ");
             
-            #line 8 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
+            #line 9 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_namespace));
             
             #line default
             #line hidden
-            this.Write("\r\n{\r\n    internal static class FluentIndex\r\n    {\r\n        public static void ConfigIndex(ModelBuilder builder)\r\n        {\r\n\r\n");
+            this.Write("\r\n{\r\n    internal static class FluentIndex\r\n    {\r\n        public static void Con" +
+                    "fig(ModelBuilder builder)\r\n        {\r\n");
             
             #line 15 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
 
@@ -56,7 +58,7 @@ namespace Dex.DalGenerator.Templates
             .Select(p => new
             {
                 IndexName = string.IsNullOrWhiteSpace(p.IndexAttribute.IndexName) 
-					? $"IX_{tableName}_{p.Properties}" 
+					? $"ix_{tableName.ToSnakeCase()}_{p.Properties.ToSnakeCase()}" 
 					: p.IndexAttribute.IndexName,
                 p.Properties,
                 p.IndexAttribute
@@ -68,41 +70,42 @@ namespace Dex.DalGenerator.Templates
         foreach (var attributes in attributesPropertie)
         {
             var indexAttribute = attributes.First().IndexAttribute;
+            var field = "x." + string.Join(", x.", attributes.OrderBy(p => p.IndexAttribute.Order).Select(p => p.Properties).ToArray());
 
             
             #line default
             #line hidden
             this.Write("            builder.Entity<");
             
-            #line 39 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
+            #line 40 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(entityModel.Name));
             
             #line default
             #line hidden
-            this.Write(">()\r\n\t\t\t\t.HasIndex(x => new {x.");
+            this.Write(">()\r\n\t\t\t\t.HasIndex(x => new {");
             
-            #line 40 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(", x.", attributes.OrderBy(p => p.IndexAttribute.Order).Select(p => p.Properties).ToArray())));
+            #line 41 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(field));
             
             #line default
             #line hidden
             this.Write("}, \"");
             
-            #line 40 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
+            #line 41 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(attributes.Key));
             
             #line default
             #line hidden
             this.Write("\")\r\n\t\t\t\t.IsUnique(");
             
-            #line 41 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
+            #line 42 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(indexAttribute.IsUnique? "true" : "false"));
             
             #line default
             #line hidden
             this.Write(");\r\n \r\n");
             
-            #line 43 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
+            #line 44 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DbIndexFluentGenerator.tt"
 
         }
     }

@@ -34,7 +34,7 @@ namespace Dex.DalGenerator.Core.Generators
             var conf = new TableTransformerConfig
             {
                 EntityNameProvider = model => model.Name + "Db",
-                TableNameProvider = model => model.Name.Pluralize()
+                TableNameProvider = model => model.Name
             };
             var tt = new EntityTableTransformer(conf);
             var tables = result.Select(x => tt.Transform(x)).ToArray();

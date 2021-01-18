@@ -6,7 +6,7 @@ namespace <#= _namespace #>
 {
     internal static class ForeignKeysFluentDbProvider
     {
-        public static void ConfigForeignKeys(ModelBuilder builder)
+        public static void Config(ModelBuilder builder)
         {
 <#
             foreach (var relation in _relations)

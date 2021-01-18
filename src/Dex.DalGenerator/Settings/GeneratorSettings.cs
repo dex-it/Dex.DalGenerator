@@ -8,7 +8,7 @@
         
         public string Dll { get; set; }
 
-        public GenElement DbModels { get; set; }
+        public DbEntityGenElement DbModels { get; set; }
         
         public GenElement DbFluentFk { get; set; }
         

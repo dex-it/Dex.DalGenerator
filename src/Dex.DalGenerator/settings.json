@@ -4,9 +4,10 @@
     "CsProject": "Services/Server/Tools/Server.DomainDeclaration/Server.DomainDeclaration.csproj",
     "Dll": "Services/Server/Tools/Server.DomainDeclaration/bin/Debug/net5.0/publish/Server.DomainDeclaration.dll",
     "DbModels": {
-      "Namespace": "Server.Dal.Models",
+      "Namespace": "Server.Dal.Model",
       "EnumNamespace": "Server.Dal.Common",
-      "Path": "Services/Server/Server.Dal/Models/Generated"
+      "Path": "Services/Server/Server.Dal/Model/Generated",
+      "IsSnakeCase": true
     },
     "DbFluentFk": {
       "Namespace": "Server.Dal.Provider",

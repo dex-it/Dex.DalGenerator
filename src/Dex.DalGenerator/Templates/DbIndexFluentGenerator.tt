@@ -2,6 +2,7 @@
 <#@ import namespace="System.ComponentModel.DataAnnotations.Schema" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="Dex.Ef.Attributes" #>
+<#@ import namespace="Dex.DalGenerator.Core.Extensions" #>
 using <#= _entitiesNamespace #>;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,9 +10,8 @@ namespace <#= _namespace #>
 {
     internal static class FluentIndex
     {
-        public static void ConfigIndex(ModelBuilder builder)
+        public static void Config(ModelBuilder builder)
         {
-
 <#
     foreach (var entityModel in _entities)
     {
@@ -23,7 +23,7 @@ namespace <#= _namespace #>
             .Select(p => new
             {
                 IndexName = string.IsNullOrWhiteSpace(p.IndexAttribute.IndexName) 
-					? $"IX_{tableName}_{p.Properties}" 
+					? $"ix_{tableName.ToSnakeCase()}_{p.Properties.ToSnakeCase()}" 
 					: p.IndexAttribute.IndexName,
                 p.Properties,
                 p.IndexAttribute
@@ -35,9 +35,10 @@ namespace <#= _namespace #>
         foreach (var attributes in attributesPropertie)
         {
             var indexAttribute = attributes.First().IndexAttribute;
+            var field = "x." + string.Join(", x.", attributes.OrderBy(p => p.IndexAttribute.Order).Select(p => p.Properties).ToArray());
 #>
             builder.Entity<<#= entityModel.Name #>>()
-				.HasIndex(x => new {x.<#= string.Join(", x.", attributes.OrderBy(p => p.IndexAttribute.Order).Select(p => p.Properties).ToArray()) #>}, "<#= attributes.Key#>")
+				.HasIndex(x => new {<#= field #>}, "<#= attributes.Key#>")
 				.IsUnique(<#= indexAttribute.IsUnique? "true" : "false"#>);
  
 <#

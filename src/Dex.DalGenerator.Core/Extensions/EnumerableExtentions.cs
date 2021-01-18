@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Dex.DalGenerator.Core.Extensions
@@ -12,6 +13,18 @@ namespace Dex.DalGenerator.Core.Extensions
         public static string JoinToString(this IEnumerable<string> collection, string separator)
         {
             return string.Join(separator, collection);
+        }        
+        
+        public static string JoinToString(this IEnumerable<string> collection, char separator)
+        {
+            return string.Join(separator, collection);
+        }
+
+        public static string ToSnakeCase(this string name)
+        {
+            return Regex.Split(name, @"(?<!^)(?=[A-Z])")
+                .Select(x => x.ToLowerInvariant())
+                .JoinToString('_');
         }
 
         public static IEnumerable<T> Replace<T>(this IEnumerable<T> collection, Func<T, bool> matchFunc,
