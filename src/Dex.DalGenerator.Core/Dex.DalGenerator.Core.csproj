@@ -7,7 +7,7 @@
 
     <ItemGroup>
       <PackageReference Include="Dex.DalGenerator.Annotation" Version="1.0.1" />
-      <PackageReference Include="Dex.Ef" Version="1.0.1" />
+      <PackageReference Include="Dex.Ef" Version="1.0.5" />
     </ItemGroup>
 
 </Project>

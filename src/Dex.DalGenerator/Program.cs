@@ -19,12 +19,25 @@ namespace Dex.DalGenerator
 {
     internal static class Program
     {
-        static void Main()
+        static void Main(string[] args)
         {
-            var projectSettingsText = File.ReadAllText("settings.json");
+            var configFileName = "settings.json";
+            if (args.Length > 0)
+            {
+                if (File.Exists(args[0]))
+                {
+                    configFileName = args[0];
+                }
+                else
+                {
+                    throw new InvalidProgramException("Configuration not found: " + args[0]);
+                }
+            }
+
+            var projectSettingsText = File.ReadAllText(configFileName);
             var projectSettings = JsonSerializer.Deserialize<GenProjectSettings[]>(projectSettingsText);
             var currentDirectory = Environment.CurrentDirectory;
-            
+
             foreach (var projectSetting in projectSettings)
             {
                 Environment.CurrentDirectory = projectSetting.Root;
@@ -43,7 +56,6 @@ namespace Dex.DalGenerator
 
                 var assembly = Assembly.LoadFrom(settings.Dll);
                 Gen(assembly, settings);
-                
                 Environment.CurrentDirectory = currentDirectory;
             }
         }
