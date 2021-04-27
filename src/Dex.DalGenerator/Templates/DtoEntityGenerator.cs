@@ -17,7 +17,7 @@ namespace Dex.DalGenerator.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+    #line 1 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
     public partial class DtoEntityGenerator : DtoEntityGeneratorBase
     {
@@ -28,44 +28,63 @@ namespace Dex.DalGenerator.Templates
         public virtual string TransformText()
         {
             
-            #line 1 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 1 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
 
     // ReSharper disable RedundantNameQualifier
 
             
             #line default
             #line hidden
-            this.Write("using System;\r\nusing System.ComponentModel.DataAnnotations;\r\nusing ");
+            this.Write("using System;\r\nusing System.ComponentModel.DataAnnotations;\r\n");
             
-            #line 9 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(_enumNamespace));
+            #line 9 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+
+foreach (var enumNamespace in _enumNamespaces)
+{
+
             
             #line default
             #line hidden
-            this.Write(";\r\n\r\nnamespace ");
+            this.Write("using ");
             
-            #line 11 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 13 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(enumNamespace));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n");
+            
+            #line 14 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+
+}
+
+            
+            #line default
+            #line hidden
+            this.Write("\r\nnamespace ");
+            
+            #line 18 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_namespace));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n\tpublic partial class ");
             
-            #line 13 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 20 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Entity.Name));
             
             #line default
             #line hidden
             this.Write(": ");
             
-            #line 13 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 20 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetSourceTypeName()));
             
             #line default
             #line hidden
             this.Write("\r\n\t{\r\n");
             
-            #line 15 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 22 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
 
 		foreach(var prop in Entity.Properties.Values)
 		{
@@ -77,7 +96,7 @@ namespace Dex.DalGenerator.Templates
             #line hidden
             this.Write("\t\t[Required]\r\n");
             
-            #line 22 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 29 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
 
             }
 
@@ -86,27 +105,27 @@ namespace Dex.DalGenerator.Templates
             #line hidden
             this.Write("        public ");
             
-            #line 25 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 32 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetFriendlyName(prop)));
             
             #line default
             #line hidden
             
-            #line 25 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 32 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.IsCollection ? "[]" : ""));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 25 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 32 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.Name));
             
             #line default
             #line hidden
             this.Write(" { get; set; }\r\n");
             
-            #line 26 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 33 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
  
         }
 		foreach(var prop in Entity.References.Values)
@@ -119,7 +138,7 @@ namespace Dex.DalGenerator.Templates
             #line hidden
             this.Write("\t\t[Required]\r\n");
             
-            #line 34 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 41 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
 
             }
 
@@ -128,27 +147,27 @@ namespace Dex.DalGenerator.Templates
             #line hidden
             this.Write("        public ");
             
-            #line 37 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 44 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.TargetEntity.Name));
             
             #line default
             #line hidden
             
-            #line 37 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 44 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.IsCollection ? "[]" : ""));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 37 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 44 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.Name));
             
             #line default
             #line hidden
             this.Write(" { get; set; }\r\n");
             
-            #line 38 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 45 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
 
             if(prop.HasAttribute<RequiredAttribute>())
             {
@@ -158,7 +177,7 @@ namespace Dex.DalGenerator.Templates
             #line hidden
             this.Write("\t\t[Required]\r\n");
             
-            #line 43 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 50 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
 
             }
 
@@ -167,41 +186,41 @@ namespace Dex.DalGenerator.Templates
             #line hidden
             this.Write("\t\t");
             
-            #line 46 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 53 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.TargetEntity.SourceType.GetFriendlyName()));
             
             #line default
             #line hidden
             
-            #line 46 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 53 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.IsCollection ? "[]" : ""));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 46 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 53 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetSourceTypeName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 46 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 53 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.Name));
             
             #line default
             #line hidden
             this.Write(" => this.");
             
-            #line 46 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 53 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.Name));
             
             #line default
             #line hidden
             this.Write(";\r\n");
             
-            #line 47 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
+            #line 54 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DtoEntityGenerator.tt"
  
         }
 

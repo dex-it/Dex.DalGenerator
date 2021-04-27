@@ -15,7 +15,7 @@ namespace Dex.DalGenerator.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
+    #line 1 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
     public partial class EnumFluentGenerator : EnumFluentGeneratorBase
     {
@@ -25,17 +25,35 @@ namespace Dex.DalGenerator.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using ");
             
-            #line 2 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(_enumNamespace));
+            #line 2 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
+
+foreach (var enumNamespace in _enumNamespaces)
+{
+
             
             #line default
             #line hidden
-            this.Write(";\r\nusing Microsoft.EntityFrameworkCore;\r\nusing Npgsql;\r\nusing System.Linq;\r\nusing" +
-                    " System.Text.RegularExpressions;\r\nusing System;\r\n\r\nnamespace ");
+            this.Write("using ");
             
-            #line 9 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
+            #line 6 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(enumNamespace));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n");
+            
+            #line 7 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
+
+}
+
+            
+            #line default
+            #line hidden
+            this.Write("using Microsoft.EntityFrameworkCore;\r\nusing Npgsql;\r\nusing System.Linq;\r\nusing Sy" +
+                    "stem.Text.RegularExpressions;\r\nusing System;\r\n\r\nnamespace ");
+            
+            #line 16 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_namespace));
             
             #line default
@@ -43,7 +61,7 @@ namespace Dex.DalGenerator.Templates
             this.Write("\r\n{\r\n    internal static class EnumFluentDbProvider\r\n    {\r\n\t    public static vo" +
                     "id MapEnum()\r\n\t\t{\r\n");
             
-            #line 15 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
+            #line 22 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
 
 	foreach (var @enum in _enums)
 	{
@@ -54,21 +72,21 @@ namespace Dex.DalGenerator.Templates
             #line hidden
             this.Write("            NpgsqlConnection.GlobalTypeMapper.MapEnum<");
             
-            #line 20 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
+            #line 27 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
             
             #line default
             #line hidden
             this.Write(">(nameof(");
             
-            #line 20 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
+            #line 27 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
             
             #line default
             #line hidden
             this.Write(").ToLower());\r\n");
             
-            #line 21 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
+            #line 28 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
 
 	}
 
@@ -89,7 +107,7 @@ namespace Dex.DalGenerator.Templates
         {
 ");
             
-            #line 36 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
+            #line 43 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
 
     foreach (var @enum in _enums)
 	{
@@ -100,21 +118,21 @@ namespace Dex.DalGenerator.Templates
             #line hidden
             this.Write("            builder.HasPostgresEnum(nameof(");
             
-            #line 41 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
+            #line 48 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
             
             #line default
             #line hidden
             this.Write(").ToLower(), GetNames(typeof(");
             
-            #line 41 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
+            #line 48 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
             
             #line default
             #line hidden
             this.Write(")));\r\n\r\n");
             
-            #line 43 "D:\Projects\Dex\DomainGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
+            #line 50 "D:\Projects\GorodPay\Dex.DalGenerator\src\Dex.DalGenerator\Templates\EnumFluentGenerator.tt"
 
 	}
 

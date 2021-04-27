@@ -14,16 +14,16 @@ namespace Dex.DalGenerator.Templates
     {
         public Relation[] Relations { get; }
         public string Namespace { get; }
-        public string EnumNamespace { get; }
+        public string[] EnumNamespaces { get; }
         public bool IsSnakeCase { get; }
         public IEntityModel Entity { get; }
 
-        public DbEntityGenerator(IEntityModel model, Relation[] relations, string @namespace, string enumNamespace,
+        public DbEntityGenerator(IEntityModel model, Relation[] relations, string @namespace, string[] enumNamespaces,
             bool isSnakeCase)
         {
             Relations = relations;
             Namespace = @namespace;
-            EnumNamespace = enumNamespace;
+            EnumNamespaces = enumNamespaces;
             IsSnakeCase = isSnakeCase;
 
             Entity = model ?? throw new ArgumentNullException(nameof(model));
