@@ -73,7 +73,7 @@ namespace Dex.DalGenerator
             var relations = entityModels.CollectRelations();
 
             var modelNamespace = setting.DbModels.Namespace;
-            var enumNamespaces = setting.DbModels.EnumNamespaces ?? new[] { setting.DbModels.EnumNamespace };
+            var enumNamespaces = setting.DbModels.EnumNamespaces;
             var isSnakeCase = setting.DbModels.IsSnakeCase;
             var dbEntitiesGenerator =
                 new DbEntitiesGenerator(entityModels, relations, modelNamespace, enumNamespaces, isSnakeCase);
