@@ -73,10 +73,10 @@ namespace Dex.DalGenerator
             var relations = entityModels.CollectRelations();
 
             var modelNamespace = setting.DbModels.Namespace;
-            var enumNamespace = setting.DbModels.EnumNamespace;
+            var enumNamespaces = setting.DbModels.EnumNamespaces;
             var isSnakeCase = setting.DbModels.IsSnakeCase;
             var dbEntitiesGenerator =
-                new DbEntitiesGenerator(entityModels, relations, modelNamespace, enumNamespace, isSnakeCase);
+                new DbEntitiesGenerator(entityModels, relations, modelNamespace, enumNamespaces, isSnakeCase);
 
             var folderPath = setting.DbModels.Path;
             Directory.CreateDirectory(folderPath);
@@ -102,7 +102,7 @@ namespace Dex.DalGenerator
             {
                 Log("Generate enum by fluent syntax");
                 var ns = setting.DbFluentEnum.Namespace;
-                var enumFluentGenerator = new EnumFluentGenerator(entityModels, ns, enumNamespace);
+                var enumFluentGenerator = new EnumFluentGenerator(entityModels, ns, enumNamespaces);
                 enumFluentGenerator.WriteToFile(setting.DbFluentEnum.Path);
             }
 
@@ -117,7 +117,7 @@ namespace Dex.DalGenerator
 
                 Log("Generate dtos");
                 var ns = setting.Dto.Namespace;
-                var dtoEntitiesGenerator = new DtoEntitiesGenerator(models, ns, enumNamespace);
+                var dtoEntitiesGenerator = new DtoEntitiesGenerator(models, ns, enumNamespaces);
                 folderPath = setting.Dto.Path;
                 Directory.CreateDirectory(folderPath);
                 dtoEntitiesGenerator.Generate(folderPath);

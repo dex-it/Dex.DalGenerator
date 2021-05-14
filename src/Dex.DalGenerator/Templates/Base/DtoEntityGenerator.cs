@@ -12,14 +12,14 @@ namespace Dex.DalGenerator.Templates
         private readonly string _customSourceTypeName;
         public IEntityModel Entity { get; }
         private readonly string _namespace;
-        private readonly string _enumNamespace;
+        private readonly string[] _enumNamespaces;
 
-        public DtoEntityGenerator(IEntityModel model, string @namespace, string enumNamespace,
+        public DtoEntityGenerator(IEntityModel model, string @namespace, string[] enumNamespaces,
             string customSourceTypeName = null)
         {
             _customSourceTypeName = customSourceTypeName;
             _namespace = @namespace;
-            _enumNamespace = enumNamespace;
+            _enumNamespaces = enumNamespaces;
             Entity = model ?? throw new ArgumentNullException(nameof(model));
         }
 

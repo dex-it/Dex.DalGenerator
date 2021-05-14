@@ -12,14 +12,14 @@ namespace Dex.DalGenerator.Generator
     {
         private readonly IEntityModel[] _entities;
         private readonly string _namespace;
-        private readonly string _enumNamespace;
+        private readonly string[] _enumNamespaces;
 
 
-        public DtoEntitiesGenerator(IEntityModel[] entities, string @namespace, string enumNamespace)
+        public DtoEntitiesGenerator(IEntityModel[] entities, string @namespace, string[] enumNamespaces)
         {
             _entities = entities ?? throw new ArgumentNullException(nameof(entities));
             _namespace = @namespace;
-            _enumNamespace = enumNamespace;
+            _enumNamespaces = enumNamespaces;
         }
 
         public void Generate(string folderPath)
@@ -29,7 +29,7 @@ namespace Dex.DalGenerator.Generator
 
             foreach (var entityModel in _entities)
             {
-                new DtoEntityGenerator(entityModel, _namespace, _enumNamespace, folderPath)
+                new DtoEntityGenerator(entityModel, _namespace, _enumNamespaces, folderPath)
                     .WriteToFile(Path.Combine(folderPath, $"{entityModel.Name}.g.cs"));
             }
         }

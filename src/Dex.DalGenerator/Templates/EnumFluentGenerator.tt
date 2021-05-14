@@ -1,5 +1,12 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
-using <#= _enumNamespace #>;
+<#
+foreach (var enumNamespace in _enumNamespaces)
+{
+#>
+using <#= enumNamespace #>;
+<#
+}
+#>
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using System.Linq;

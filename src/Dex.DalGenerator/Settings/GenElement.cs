@@ -4,8 +4,8 @@ namespace Dex.DalGenerator.Settings
     {
         public string Namespace { get; set; }
 
-        public string EnumNamespace { get; set; }
-        
+        public string[] EnumNamespaces { get; set; }
+
         public string Path { get; set; }
     }
 }

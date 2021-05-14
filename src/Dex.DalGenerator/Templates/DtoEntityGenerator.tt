@@ -6,7 +6,14 @@
 <#@ import namespace="Dex.DalGenerator.Core.Extensions" #>
 using System;
 using System.ComponentModel.DataAnnotations;
-using <#= _enumNamespace #>;
+<#
+foreach (var enumNamespace in _enumNamespaces)
+{
+#>
+using <#= enumNamespace #>;
+<#
+}
+#>
 
 namespace <#= _namespace #>
 {
