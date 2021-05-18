@@ -1,5 +1,6 @@
 Пример конфига GenConfig.json
 
+```json
 {
   "CsProject": "Declaration.csproj",
   "Dll": "bin/Debug/net5.0/publish/Declaration.dll",
@@ -29,3 +30,4 @@
     "Path": "../MobileApi.Dto/Generated"
   }
 }
+```
