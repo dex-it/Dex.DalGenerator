@@ -16,15 +16,17 @@ namespace Dex.DalGenerator.Templates
         public string Namespace { get; }
         public string[] EnumNamespaces { get; }
         public bool IsSnakeCase { get; }
+        public bool IsInternal { get; }
         public IEntityModel Entity { get; }
 
         public DbEntityGenerator(IEntityModel model, Relation[] relations, string @namespace, string[] enumNamespaces,
-            bool isSnakeCase)
+            bool isSnakeCase, bool isInternal)
         {
             Relations = relations;
             Namespace = @namespace;
             EnumNamespaces = enumNamespaces;
             IsSnakeCase = isSnakeCase;
+            IsInternal = isInternal;
 
             Entity = model ?? throw new ArgumentNullException(nameof(model));
             Entity.Properties.Values.First().PropertyType.GetFriendlyName();

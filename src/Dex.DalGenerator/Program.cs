@@ -75,8 +75,14 @@ namespace Dex.DalGenerator
             var modelNamespace = setting.DbModels.Namespace;
             var enumNamespaces = setting.DbModels.EnumNamespaces;
             var isSnakeCase = setting.DbModels.IsSnakeCase;
-            var dbEntitiesGenerator =
-                new DbEntitiesGenerator(entityModels, relations, modelNamespace, enumNamespaces, isSnakeCase);
+            var isInternal = setting.DbModels.IsInternal;
+            var dbEntitiesGenerator = new DbEntitiesGenerator(
+                entityModels, 
+                relations, 
+                modelNamespace, 
+                enumNamespaces, 
+                isSnakeCase,
+                isInternal);
 
             var folderPath = setting.DbModels.Path;
             Directory.CreateDirectory(folderPath);

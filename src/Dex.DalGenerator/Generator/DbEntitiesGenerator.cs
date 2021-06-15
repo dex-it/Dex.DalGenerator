@@ -18,19 +18,22 @@ namespace Dex.DalGenerator.Generator
         
         private readonly string[] _enumNamespaces;
         private readonly bool _isSnakeCase;
+        private readonly bool _isInternal;
 
         public DbEntitiesGenerator(
-            IEntityModel[] entities, 
+            IEntityModel[] entities,
             Relation[] relations,
             string modelNamespace,
-            string[] enumNamespaces, 
-            bool isSnakeCase)
+            string[] enumNamespaces,
+            bool isSnakeCase, 
+            bool isInternal)
         {
             _relations = relations ?? throw new ArgumentNullException(nameof(relations));
             _ns = modelNamespace;
             _enumNamespaces = enumNamespaces;
             _isSnakeCase = isSnakeCase;
             _entities = entities ?? throw new ArgumentNullException(nameof(entities));
+            _isInternal = isInternal;
         }
 
         public void Generate(string folderPath)
@@ -45,7 +48,7 @@ namespace Dex.DalGenerator.Generator
             foreach (var entityModel in _entities)
             {
                 var relations = _relations.Where(r => r.EntityName == entityModel.Name).ToArray();
-                new DbEntityGenerator(entityModel, relations, _ns, _enumNamespaces, _isSnakeCase)
+                new DbEntityGenerator(entityModel, relations, _ns, _enumNamespaces, _isSnakeCase, _isInternal)
                     .WriteToFile(Path.Combine(folderPath, $"{entityModel.Name}.g.cs"));
                 // todo зачем это делать в цикле?
                 files = files.Where(f => f.Name != entityModel.Name).ToArray();
