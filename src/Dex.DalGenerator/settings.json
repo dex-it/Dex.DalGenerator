@@ -1,6 +1,6 @@
 ﻿[
   {
-    "Root": "D:/Projects/Dex/Dex.Backend.StartApp/src/Services/Server/Tools/Server.DomainDeclaration/", 
+    "Root": "../../Dex.Backend.StartApp/src/Tools/StartApp.Ef.Declaration", 
     "ConfigName": "GenConfig.json"
   }
 ]

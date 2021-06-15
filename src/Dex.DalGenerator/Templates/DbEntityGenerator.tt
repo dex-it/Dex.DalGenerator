@@ -23,7 +23,7 @@ namespace <#=Namespace#>
 	string implements = Entity.IsRootType ? " : " + string.Join(", ", Entity.Implements.Select(i=>i.GetFriendlyName())) : string.Empty;
 #>
 	[Table("<#= GetTableName(Entity) #>")]
-	public partial class <#= Entity.Name #><#=implements#>
+	<#= IsInternal ? "internal" : "public" #> partial class <#= Entity.Name #><#=implements#>
 	{
 <#
 foreach(var prop in Entity.Properties.Values)
