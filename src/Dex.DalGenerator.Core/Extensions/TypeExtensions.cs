@@ -39,20 +39,38 @@ namespace Dex.DalGenerator.Core.Extensions
                 return "string";
             else
             {
-                var name = fullName ? type.FullName : type.Name;
+                var name = fullName 
+                    ? type.FullName 
+                    : type.Name;
+
                 if (type.GetTypeInfo().IsGenericType)
-                    return name.Split('`')[0] + "<" + string.Join(", ", type.GetTypeInfo().GetGenericArguments().Select(t => GetFriendlyName(t, fullName)).ToArray()) + ">";
+                {
+                    string t = string.Join(", ", type.GetTypeInfo().GetGenericArguments().Select(t => GetFriendlyName(t, fullName)).ToArray());
+
+                    if (type.GetGenericTypeDefinition() == typeof(Nullable<>))
+                    {
+                        return $"{t}?";
+                    }
+                    else
+                    {
+                        return name.Split('`')[0] + "<" + t + ">";
+                    }
+                }
                 else
+                {
                     return name;
+                }
             }
         }
 
-
         public static bool IsNullable( this Type type)
         {
-            if (type == null) throw new ArgumentNullException(nameof(type));
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
 
-            return type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof (Nullable<>);
+            return type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
         }
 
         public static Type MakeNullable(this Type type)
