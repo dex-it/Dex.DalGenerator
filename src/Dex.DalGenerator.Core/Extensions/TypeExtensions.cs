@@ -1,7 +1,9 @@
 ﻿using System;
+using System.CodeDom;
 using System.Linq;
 using System.Reflection;
 using Dex.Ef.Contracts.Entities;
+using Microsoft.CSharp;
 
 namespace Dex.DalGenerator.Core.Extensions
 {
@@ -20,46 +22,44 @@ namespace Dex.DalGenerator.Core.Extensions
         public static string GetFriendlyName(this Type type, bool fullName = false)
         {
             if (type == typeof(int))
-                return "int";
+                return ToSimpleName(type);
             else if (type == typeof(short))
-                return "short";
+                return ToSimpleName(type);
             else if (type == typeof(byte))
-                return "byte";
+                return ToSimpleName(type);
             else if (type == typeof(bool))
-                return "bool";
+                return ToSimpleName(type);
             else if (type == typeof(long))
-                return "long";
+                return ToSimpleName(type);
             else if (type == typeof(float))
-                return "float";
+                return ToSimpleName(type);
             else if (type == typeof(double))
-                return "double";
+                return ToSimpleName(type);
             else if (type == typeof(decimal))
-                return "decimal";
+                return ToSimpleName(type);
             else if (type == typeof(string))
-                return "string";
-            else
+                return ToSimpleName(type);
+
+            var name = fullName
+                ? type.FullName
+                : type.Name;
+
+            if (type.GetTypeInfo().IsGenericType)
             {
-                var name = fullName 
-                    ? type.FullName 
-                    : type.Name;
+                string args = string.Join(", ", type.GetTypeInfo().GetGenericArguments().Select(t => GetFriendlyName(t, fullName)).ToArray());
 
-                if (type.GetTypeInfo().IsGenericType)
+                if (type.GetGenericTypeDefinition() == typeof(Nullable<>))
                 {
-                    string t = string.Join(", ", type.GetTypeInfo().GetGenericArguments().Select(t => GetFriendlyName(t, fullName)).ToArray());
-
-                    if (type.GetGenericTypeDefinition() == typeof(Nullable<>))
-                    {
-                        return $"{t}?";
-                    }
-                    else
-                    {
-                        return name.Split('`')[0] + "<" + t + ">";
-                    }
+                    return $"{args}?";
                 }
                 else
                 {
-                    return name;
+                    return name.Split('`')[0] + "<" + args + ">";
                 }
+            }
+            else
+            {
+                return name;
             }
         }
 
@@ -81,6 +81,16 @@ namespace Dex.DalGenerator.Core.Extensions
             }
 
             return typeof(Nullable<>).MakeGenericType(type);
+        }
+
+        private static string ToSimpleName(Type type)
+        {
+            using (var provider = new CSharpCodeProvider())
+            {
+                var typeRef = new CodeTypeReference(type);
+                string typeName = provider.GetTypeOutput(typeRef);
+                return typeName;
+            }
         }
     }
 }

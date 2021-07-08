@@ -8,6 +8,7 @@
     <ItemGroup>
       <PackageReference Include="Dex.DalGenerator.Annotation" Version="1.0.1" />
       <PackageReference Include="Dex.Ef" Version="1.0.10" />
+      <PackageReference Include="System.CodeDom" Version="5.0.0" />
     </ItemGroup>
 
 </Project>
