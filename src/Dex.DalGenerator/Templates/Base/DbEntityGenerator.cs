@@ -43,7 +43,7 @@ namespace Dex.DalGenerator.Templates
 
         private string GetAttributes(IPropertyModel property)
         {
-            const string newLine = "\n\t\t";
+            string newLine = Environment.NewLine + "\t\t";
             var attributeResult = string.Empty;
             if (property.IsKey())
             {
