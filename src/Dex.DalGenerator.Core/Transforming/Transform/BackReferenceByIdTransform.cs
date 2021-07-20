@@ -17,7 +17,7 @@ namespace Dex.DalGenerator.Core.Transforming.Transform
         {
         }
 
-        public override void Transform( IEntityModel model,  IEntityReferenceModel reference)
+        public override void Transform(IEntityModel model, IEntityReferenceModel reference)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
             if (reference == null) throw new ArgumentNullException(nameof(reference));
@@ -25,7 +25,7 @@ namespace Dex.DalGenerator.Core.Transforming.Transform
             var key = model.GetKey();
             if (key == null)
             {
-                throw new Exception($"Can't apply BackReferenceById to {model.Name} because it is not a root entity.");
+                throw new InvalidOperationException($"Can't apply BackReferenceById to {model.Name} because it is not a root entity.");
             }
 
             var targetEntity = reference.TargetEntity;
@@ -45,7 +45,7 @@ namespace Dex.DalGenerator.Core.Transforming.Transform
                 propertyType = typeof(Nullable<>).MakeGenericType(propertyType);
             }
 
-            var prop = new PropertyModel(propertyType, model.Name + "Id", attributes: attributes, canWrite: false);
+            var prop = new PropertyModel(key.MemberInfo, propertyType, model.Name + "Id", attributes: attributes, canWrite: false);
             targetEntity.Properties.Add(prop.Name, prop);
         }
     }

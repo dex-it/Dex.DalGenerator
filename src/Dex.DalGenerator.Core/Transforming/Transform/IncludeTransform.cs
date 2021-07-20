@@ -18,7 +18,7 @@ namespace Dex.DalGenerator.Core.Transforming.Transform
             foreach (var property in referencedEntity.Properties.Values)
             {
                 var attributes = reference.Attributes.Concat(property.Attributes).ToList();
-                var p = new PropertyModel(property.PropertyType, reference.Name + property.Name, property.IsCollection, attributes);
+                var p = new PropertyModel(property.MemberInfo, property.PropertyType, reference.Name + property.Name, property.IsCollection, attributes);
                 model.Properties.Add(p.Name, p);
             }
 

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Data;
 using System.Linq;
 using Dex.DalGenerator.Core.Contracts;
 using Dex.DalGenerator.Core.Contracts.EntityModel;
@@ -18,15 +20,34 @@ namespace Dex.DalGenerator.Templates
             if (entities == null) throw new ArgumentNullException(nameof(entities));
             _namespace = @namespace;
             _enumNamespaces = enumNamespaces;
-            _enums = entities
-                .SelectMany(m => m.Properties.Values, (m, p) => p.PropertyType)
-                .Where(p => p.BaseType == typeof(Enum)).Distinct()
-                .ToArray();
+
+            _enums = GetEnums(entities.SelectMany(m => m.Properties.Values, (_, p) => p.PropertyType))
+                .ToImmutableList();
         }
 
         public string Generate()
         {
             return TransformText();
+        }
+
+        private static IEnumerable<Type> GetEnums(IEnumerable<Type> propertyType)
+        {
+            foreach (var type in propertyType)
+            {
+                if (type.IsEnum)
+                {
+                    yield return type;
+                }
+                else
+                {
+                    Type? valueNullableType = Nullable.GetUnderlyingType(type);
+
+                    if (valueNullableType != null && valueNullableType.IsEnum)
+                    {
+                        yield return valueNullableType;
+                    }
+                }
+            }
         }
     }
 }

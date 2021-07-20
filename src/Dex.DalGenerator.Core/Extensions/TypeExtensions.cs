@@ -2,15 +2,22 @@
 using System.CodeDom;
 using System.Linq;
 using System.Reflection;
+using Dex.DalGenerator.Core.Helpers;
 using Dex.Ef.Contracts.Entities;
 using Microsoft.CSharp;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace Dex.DalGenerator.Core.Extensions
 {
     public static class TypeExtensions
     {
-        public static bool RootInterfaceFilter(Type typeObj, Object criteriaObj)
+        public static bool RootInterfaceFilter(Type typeObj, object criteriaObj)
         {
+            if (typeObj is null)
+            {
+                throw new ArgumentNullException(nameof(typeObj));
+            }
+
             return typeObj.GetTypeInfo().IsGenericType && typeObj.GetGenericTypeDefinition() == typeof(IEntity<>);
         }
 
@@ -21,6 +28,11 @@ namespace Dex.DalGenerator.Core.Extensions
 
         public static string GetFriendlyName(this Type type, bool fullName = false)
         {
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
             if (type == typeof(int))
                 return ToSimpleName(type);
             else if (type == typeof(short))
@@ -39,6 +51,7 @@ namespace Dex.DalGenerator.Core.Extensions
                 return ToSimpleName(type);
             else if (type == typeof(string))
                 return ToSimpleName(type);
+
 
             var name = fullName
                 ? type.FullName
@@ -63,7 +76,7 @@ namespace Dex.DalGenerator.Core.Extensions
             }
         }
 
-        public static bool IsNullable( this Type type)
+        public static bool IsNullable(this Type type)
         {
             if (type == null)
             {

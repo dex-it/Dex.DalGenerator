@@ -1,6 +1,6 @@
 ﻿[
   {
-    "Root": "D:/Projects/Dex/Dex.Backend.StartApp/src/Services/Server/Tools/Server.DomainDeclaration/", 
-    "ConfigName": "GenConfig.json"
+    "Root": "C:\\Users\\v.danilov.DEX\\source\\repos\\GorodPay.Backend\\src\\Admin\\Declaration",
+    "ConfigName": "./gen-config/GenConfig.json"
   }
 ]

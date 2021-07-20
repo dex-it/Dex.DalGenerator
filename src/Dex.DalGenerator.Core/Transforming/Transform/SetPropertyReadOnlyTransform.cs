@@ -18,13 +18,13 @@ namespace Dex.DalGenerator.Core.Transforming.Transform
 			return _selector(property);
 		}
 
-		public override void Transform( IEntityModel model,  IPropertyModel prop)
+		public override void Transform(IEntityModel model, IPropertyModel property)
 		{
 		    if (model == null) throw new ArgumentNullException(nameof(model));
-		    if (prop == null) throw new ArgumentNullException(nameof(prop));
+		    if (property == null) throw new ArgumentNullException(nameof(property));
 
-		    var newProp = new PropertyModel(prop.PropertyType, prop.Name, prop.IsCollection, prop.Attributes, false);
-			model.Properties.Add(prop.Name, newProp);
+		    var newProp = new PropertyModel(property.MemberInfo, property.PropertyType, property.Name, property.IsCollection, property.Attributes, false);
+			model.Properties.Add(property.Name, newProp);
 		}
 	}
 }

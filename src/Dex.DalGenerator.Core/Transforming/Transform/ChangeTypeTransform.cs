@@ -22,9 +22,18 @@ namespace Dex.DalGenerator.Core.Transforming.Transform
 
         public override void Transform(IEntityModel model, IPropertyModel property)
         {
-            var name = property.Name;
-            var propertyModel = new PropertyModel(_newType, name, false, property.Attributes);
-            model.Properties.Add(name, propertyModel);
+            if (model is null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            var propertyModel = new PropertyModel(property.MemberInfo, _newType, property.Name, false, property.Attributes);
+            model.Properties.Add(property.Name, propertyModel);
         }
     }
 }
