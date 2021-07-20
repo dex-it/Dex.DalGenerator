@@ -7,12 +7,12 @@ namespace Dex.DalGenerator.Common
 {
     internal class CustomPropertyModel : IPropertyModel
     {
-        public CustomPropertyModel(MemberInfo memberInfo)
+        public CustomPropertyModel(MemberInfo? memberInfo)
         {
-            MemberInfo = memberInfo ?? throw new ArgumentNullException(nameof(memberInfo));
+            MemberInfo = memberInfo;
         }
 
-        public MemberInfo MemberInfo { get; }
+        public MemberInfo? MemberInfo { get; }
         public string PropertyTypeName { get; set; }
         public IEnumerable<Attribute> Attributes { get; set; }
         public Type PropertyType { get; set; }

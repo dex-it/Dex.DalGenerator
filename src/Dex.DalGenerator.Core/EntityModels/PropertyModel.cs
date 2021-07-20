@@ -58,6 +58,7 @@ namespace Dex.DalGenerator.Core.EntityModels
             get { return Attributes.OfType<AutoIncrementAttribute>().Any(); }
         }
 
+
         public override string ToString()
         {
             return $"{PropertyType.Name} {Name}";

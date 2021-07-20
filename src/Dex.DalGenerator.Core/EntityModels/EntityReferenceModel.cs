@@ -11,14 +11,12 @@ namespace Dex.DalGenerator.Core.EntityModels
         public EntityReferenceModel( IEntityModel targetEntity, string name, Type declaringType,
             bool isCollection, IReadOnlyCollection<Attribute> attributes, bool canWrite)
         {
-            if (declaringType == null) throw new ArgumentNullException(nameof(declaringType));
-
             IsCollection = isCollection;
             Name = name ?? throw new ArgumentNullException(nameof(name));
             TargetEntity = targetEntity ?? throw new ArgumentNullException(nameof(targetEntity));
             Attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
             CanWrite = canWrite;
-            DeclaringType = declaringType;
+            DeclaringType = declaringType ?? throw new ArgumentNullException(nameof(declaringType));
         }
 
         
