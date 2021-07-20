@@ -33,8 +33,6 @@ namespace Dex.DalGenerator.Core.Extensions
                 throw new ArgumentNullException(nameof(type));
             }
 
-            //bool nonNull = NullableRefConvention.IsNonNullableReferenceType(type);
-            
             if (type == typeof(int))
                 return ToSimpleName(type);
             else if (type == typeof(short))
