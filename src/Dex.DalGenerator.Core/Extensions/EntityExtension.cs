@@ -8,7 +8,7 @@ namespace Dex.DalGenerator.Core.Extensions
 {
     public static class EntityExtension
     {
-        public static void CheckKey<TK>( this IEntity<TK> item)
+        public static void CheckKey<TK>(this IEntity<TK> item)
             where TK : IComparable
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
@@ -19,12 +19,11 @@ namespace Dex.DalGenerator.Core.Extensions
             }
         }
 
-        public static IPropertyModel GetKey( this IEntityModel model)
+        public static IPropertyModel? GetKey(this IEntityModel model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
 
             return model.Properties.Select(pair => pair.Value).FirstOrDefault(propertyModel => propertyModel.IsKey);
         }
-
     }
 }

@@ -99,7 +99,7 @@ namespace Dex.DalGenerator.Core.Generators
             }
             else
             {
-                var propertyModel = new PropertyModel(propType, name, isCollection, attrs.ToArray());
+                var propertyModel = new PropertyModel(property, propType, name, isCollection, attrs.ToArray());
                 model.Properties.Add(name, propertyModel);
             }
         }

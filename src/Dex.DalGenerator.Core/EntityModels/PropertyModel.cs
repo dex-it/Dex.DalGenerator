@@ -4,9 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Dex.DalGenerator.Core.Contracts.EntityModel;
 using Dex.DalGenerator.Annotation.Attributes;
-
-#if !NET45
-#endif
+using System.Reflection;
+using System.Globalization;
 
 namespace Dex.DalGenerator.Core.EntityModels
 {
@@ -14,30 +13,32 @@ namespace Dex.DalGenerator.Core.EntityModels
     {
         public const int MaxLengthFieldName = 63;
 
-        public PropertyModel( Type propertyType,  string name,
-            bool isCollection = false, IEnumerable<Attribute> attributes = null, bool canWrite = true)
+        public PropertyModel(MemberInfo? memberInfo,
+            Type propertyType, 
+            string name,
+            bool isCollection = false, 
+            IEnumerable<Attribute>? attributes = null, bool canWrite = true)
         {
-            if (propertyType == null) throw new ArgumentNullException(nameof(propertyType));
             if (name == null) throw new ArgumentNullException(nameof(name));
             if (name.Length > MaxLengthFieldName)
             {
-                throw new ArgumentNullException(nameof(name), string.Format("ProperyName: {2}, Length: {0} > MaxLength: {1}", name.Length, MaxLengthFieldName, name));
+                throw new ArgumentNullException(nameof(name), string.Format(CultureInfo.InvariantCulture, 
+                    "ProperyName: {2}, Length: {0} > MaxLength: {1}", name.Length, MaxLengthFieldName, name));
             }
-
 
             IsCollection = isCollection;
             Name = name;
-            Attributes = attributes ?? new Attribute[] { };
-            PropertyType = propertyType;
+            Attributes = attributes ?? Array.Empty<Attribute>();
+            PropertyType = propertyType ?? throw new ArgumentNullException(nameof(propertyType));
             CanWrite = canWrite;
+            MemberInfo = memberInfo;
         }
 
-        
+        public MemberInfo? MemberInfo { get; }
+
         public Type PropertyType { get; }
 
-        
         public string Name { get; }
-
         
         public IEnumerable<Attribute> Attributes { get; }
 

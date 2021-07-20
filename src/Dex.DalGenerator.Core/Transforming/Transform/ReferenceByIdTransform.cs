@@ -41,7 +41,7 @@ namespace Dex.DalGenerator.Core.Transforming.Transform
                 }
             }
 
-            var propertyModel = new PropertyModel(propertyType, reference.Name + key.Name, reference.IsCollection, attrs);
+            var propertyModel = new PropertyModel(key.MemberInfo, propertyType, reference.Name + key.Name, reference.IsCollection, attrs);
             model.Properties.Add(propertyModel.Name, propertyModel);
         }
 

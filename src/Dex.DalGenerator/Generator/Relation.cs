@@ -2,6 +2,11 @@
 {
     public class Relation
     {
+        public Relation()
+        {
+
+        }
+
         public string EntityName { get; set; }
         public string TypeName { get; set; }
         public bool IsCollection { get; set; }

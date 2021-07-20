@@ -1,8 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp5.0</TargetFramework>
-        <RootNamespace>Dex.DalGenerator.Core</RootNamespace>
+      <TargetFramework>net5.0</TargetFramework>
+      <RootNamespace>Dex.DalGenerator.Core</RootNamespace>
+      <Nullable>enable</Nullable>
+      <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     </PropertyGroup>
 
     <ItemGroup>

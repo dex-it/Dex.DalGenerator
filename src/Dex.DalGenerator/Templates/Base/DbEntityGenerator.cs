@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -12,23 +13,23 @@ namespace Dex.DalGenerator.Templates
 {
     public partial class DbEntityGenerator : IEntityGenerator
     {
-        public Relation[] Relations { get; }
-        public string Namespace { get; }
-        public string[] EnumNamespaces { get; }
-        public bool IsSnakeCase { get; }
-        public IEntityModel Entity { get; }
-
         public DbEntityGenerator(IEntityModel model, Relation[] relations, string @namespace, string[] enumNamespaces,
             bool isSnakeCase)
         {
-            Relations = relations;
+            Relations = relations.ToImmutableArray();
             Namespace = @namespace;
-            EnumNamespaces = enumNamespaces;
+            EnumNamespaces = enumNamespaces.ToImmutableArray();
             IsSnakeCase = isSnakeCase;
 
             Entity = model ?? throw new ArgumentNullException(nameof(model));
             Entity.Properties.Values.First().PropertyType.GetFriendlyName();
         }
+
+        public ImmutableArray<Relation> Relations { get; }
+        public string Namespace { get; }
+        public ImmutableArray<string> EnumNamespaces { get; }
+        public bool IsSnakeCase { get; }
+        public IEntityModel Entity { get; }
 
         public string Generate()
         {

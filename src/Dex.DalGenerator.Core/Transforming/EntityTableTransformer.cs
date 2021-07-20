@@ -50,19 +50,16 @@ namespace Dex.DalGenerator.Core.Transforming
 
         private IEnumerable<IPropertyModel> GetPropertyModels(IPropertyModel property)
         {
-            var propName = property.Name;
-            var propertyType = property.PropertyType;
-
-            if (propName == "Id")
+            if (property.Name == "Id")
             {
                 var attributes = property.Attributes.Concat(new Attribute[] {new KeyAttribute()}).ToList();
-                var propertyModel = new PropertyModel(propertyType, propName, property.IsCollection, attributes);
+                var propertyModel = new PropertyModel(property.MemberInfo, property.PropertyType, property.Name, property.IsCollection, attributes);
                 yield return propertyModel;
             }
             else
             {
                 var propertyModel =
-                    new PropertyModel(propertyType, propName, property.IsCollection, property.Attributes);
+                    new PropertyModel(property.MemberInfo, property.PropertyType, property.Name, property.IsCollection, property.Attributes);
                 yield return propertyModel;
             }
         }

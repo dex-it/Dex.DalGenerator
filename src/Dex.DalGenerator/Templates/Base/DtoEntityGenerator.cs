@@ -9,13 +9,13 @@ namespace Dex.DalGenerator.Templates
 {
     public partial class DtoEntityGenerator : IEntityGenerator
     {
-        private readonly string _customSourceTypeName;
+        private readonly string? _customSourceTypeName;
         public IEntityModel Entity { get; }
         private readonly string _namespace;
         private readonly string[] _enumNamespaces;
 
         public DtoEntityGenerator(IEntityModel model, string @namespace, string[] enumNamespaces,
-            string customSourceTypeName = null)
+            string? customSourceTypeName = null)
         {
             _customSourceTypeName = customSourceTypeName;
             _namespace = @namespace;
