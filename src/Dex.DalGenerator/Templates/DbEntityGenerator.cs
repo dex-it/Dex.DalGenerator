@@ -36,9 +36,9 @@ namespace Dex.DalGenerator.Templates
             #line default
             #line hidden
             this.Write("using System;\r\nusing System.ComponentModel.DataAnnotations;\r\nusing System.Compone" +
-                    "ntModel.DataAnnotations.Schema;\r\n");
+                    "ntModel.DataAnnotations.Schema;\r\nusing System.Collections.Generic;\r\n");
             
-            #line 10 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+            #line 11 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
 
 foreach (var enumNamespace in EnumNamespaces)
 {
@@ -48,14 +48,14 @@ foreach (var enumNamespace in EnumNamespaces)
             #line hidden
             this.Write("using ");
             
-            #line 14 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+            #line 15 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(enumNamespace));
             
             #line default
             #line hidden
             this.Write(";\r\n");
             
-            #line 15 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+            #line 16 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
 
 }
 
@@ -64,14 +64,14 @@ foreach (var enumNamespace in EnumNamespaces)
             #line hidden
             this.Write("using Dex.Ef.Contracts.Entities;\r\n\r\nnamespace ");
             
-            #line 20 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+            #line 21 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Namespace));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n#nullable enable\r\n");
             
-            #line 23 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+            #line 24 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
 
 	string implements = Entity.IsRootType ? " : " + string.Join(", ", Entity.Implements.Select(i=>i.GetFriendlyName())) : string.Empty;
 
@@ -80,27 +80,27 @@ foreach (var enumNamespace in EnumNamespaces)
             #line hidden
             this.Write("\t[Table(\"");
             
-            #line 26 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+            #line 27 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetTableName(Entity)));
             
             #line default
             #line hidden
             this.Write("\")]\r\n\tpublic partial class ");
             
-            #line 27 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+            #line 28 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Entity.Name));
             
             #line default
             #line hidden
             
-            #line 27 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+            #line 28 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(implements));
             
             #line default
             #line hidden
             this.Write("\r\n\t{\r\n");
             
-            #line 29 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+            #line 30 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
 
 foreach(var prop in Entity.Properties.Values)
 {
@@ -110,35 +110,35 @@ foreach(var prop in Entity.Properties.Values)
             #line hidden
             this.Write("\r\n\t\t");
             
-            #line 34 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+            #line 35 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetAttributes(prop)));
             
             #line default
             #line hidden
             this.Write("\r\n\t\tpublic ");
             
-            #line 35 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+            #line 36 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.PropertyType.GetFriendlyName() + (prop.IsCollection? "[]" : "") + prop.GetNullableRefChar()));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 35 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+            #line 36 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.Name));
             
             #line default
             #line hidden
             this.Write(" { get; set; }");
             
-            #line 35 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+            #line 36 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.SuppressNullableRef()));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 36 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+            #line 37 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
 
 }
 
@@ -149,47 +149,64 @@ if(Relations.Count() > 0)
 
 foreach(var relation in Relations)
 {
-	string typeName = relation.IsCollection ? $" System.Collections.Generic.ICollection<{relation.TypeName}>" : relation.TypeName;
-	if(!relation.IsBackRelation)
+	string typeName = relation.IsCollection ? $"ICollection<{relation.TypeName}>?" : relation.TypeName + "?";
+	if(relation.IsBackRelation)
 	{
 
             
             #line default
             #line hidden
-            this.Write("\r\n\t\t[ForeignKey(nameof(");
-            
-            #line 51 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(relation.KeyPropertyName));
-            
-            #line default
-            #line hidden
-            this.Write("))]\r\n");
+            this.Write("\r\n\t\tpublic ");
             
             #line 52 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
-	
-	}
-
-            
-            #line default
-            #line hidden
-            this.Write("\t\tpublic ");
-            
-            #line 55 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(typeName));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 55 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+            #line 52 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(relation.PropertyName));
             
             #line default
             #line hidden
-            this.Write(" { get; set; } = null!;\r\n");
+            this.Write(" { get; set; }\r\n");
             
-            #line 56 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+            #line 53 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+	
+	}
+	else
+	{
 
+            
+            #line default
+            #line hidden
+            this.Write("\t\t[ForeignKey(nameof(");
+            
+            #line 58 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(relation.KeyPropertyName));
+            
+            #line default
+            #line hidden
+            this.Write("))]\r\n\t\tpublic ");
+            
+            #line 59 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(typeName));
+            
+            #line default
+            #line hidden
+            this.Write(" ");
+            
+            #line 59 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(relation.PropertyName));
+            
+            #line default
+            #line hidden
+            this.Write(" { get; set; }\r\n");
+            
+            #line 60 "D:\Projects\Dex.DalGenerator\src\Dex.DalGenerator\Templates\DbEntityGenerator.tt"
+
+	}
 }
 
             

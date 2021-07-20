@@ -7,6 +7,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 <#
 foreach (var enumNamespace in EnumNamespaces)
 {
@@ -43,17 +44,21 @@ if(Relations.Count() > 0)
 
 foreach(var relation in Relations)
 {
-	string typeName = relation.IsCollection ? $" System.Collections.Generic.ICollection<{relation.TypeName}>" : relation.TypeName;
-	if(!relation.IsBackRelation)
+	string typeName = relation.IsCollection ? $"ICollection<{relation.TypeName}>?" : relation.TypeName + "?";
+	if(relation.IsBackRelation)
 	{
 #>
 
-		[ForeignKey(nameof(<#= relation.KeyPropertyName #>))]
+		public <#= typeName #> <#=relation.PropertyName #> { get; set; }
 <#	
 	}
+	else
+	{
 #>
-		public <#= typeName #> <#=relation.PropertyName #> { get; set; } = null!;
+		[ForeignKey(nameof(<#= relation.KeyPropertyName #>))]
+		public <#= typeName #> <#=relation.PropertyName #> { get; set; }
 <#
+	}
 }
 #>
 	}
